@@ -6,11 +6,65 @@
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>icp-manage Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
+  <url></url>
 
+  <properties>
+    <java-version>1.8</java-version>
+    <junit-version>4.12</junit-version>
+    <maven-compiler-plugin-version>3.6.1</maven-compiler-plugin-version>
+    <jetty-maven-plugin-version>9.4.0.v20161208</jetty-maven-plugin-version>
+    <spring-framework-version>4.3.5.RELEASE</spring-framework-version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit-version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
   </dependencies>
+
   <build>
     <finalName>icp-manage</finalName>
+    <plugins>
+      <!-- 指定jdk版本 compiler环境,maven默认是jdk1.5 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin-version}</version>
+        <configuration>
+          <source>${java-version}</source>
+          <target>${java-version}</target>
+          <!-- true:跳过测试 -->
+          <skip>true</skip>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <!-- 轻量级 开源的servlet容器，它为基于Java的web容器，例如JSP和servlet提供运行环境。 -->
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-maven-plugin-version}</version>
+      </plugin>
+    </plugins>
   </build>
+
+  <!-- 依赖管理 -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- 统一指定spring版本,所有使用的spring模块dependency都不需要在声明version属性 -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>${spring-framework-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
